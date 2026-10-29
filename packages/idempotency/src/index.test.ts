@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { createIdempotent } from './index';
+import { MemoryIdemStore, createIdempotent } from './index';
 
 it('runs once per key and replays the result', async () => {
   const run = createIdempotent();
@@ -43,4 +43,28 @@ it('expires after the ttl', async () => {
   await run('k', async () => ++n);
   await new Promise(r => setTimeout(r, 25));
   expect(await run('k', async () => ++n)).toBe(2);
+});
+
+it('two instances sharing a store only execute once', async () => {
+  const store = new MemoryIdemStore();
+  const a = createIdempotent({ store });
+  const b = createIdempotent({ store });
+  let n = 0;
+  const slow = async () => {
+    n++;
+    await new Promise(r => setTimeout(r, 60));
+    return { paid: true };
+  };
+
+  const [x, y] = await Promise.all([a('k', slow), b('k', slow)]);
+  expect(x).toEqual({ paid: true });
+  expect(y).toEqual({ paid: true });
+  expect(n).toBe(1);
+});
+
+it('releases the lock when fn fails', async () => {
+  const store = new MemoryIdemStore();
+  const run = createIdempotent({ store });
+  await expect(run('k', async () => { throw new Error('x'); })).rejects.toThrow('x');
+  expect(await run('k', async () => 'ok')).toBe('ok');
 });
