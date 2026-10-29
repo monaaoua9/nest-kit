@@ -2,3 +2,5 @@ node_modules
 dist
 *.log
 .env
+packages/*/src/**/*.js
+packages/*/src/**/*.d.ts
