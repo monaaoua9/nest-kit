@@ -28,6 +28,17 @@ export function createEnv(src: Source = process.env) {
       if (v === undefined) return def as boolean;
       return ['1', 'true', 'yes'].includes(v.toLowerCase());
     },
+    list(name: string, def?: string[]): string[] {
+      const v = raw(name, def !== undefined);
+      if (v === undefined) return def as string[];
+      return v.split(",").map(x => x.trim()).filter(Boolean);
+    },
+    oneOf<T extends string>(name: string, values: readonly T[], def?: T): T {
+      const v = raw(name, def !== undefined);
+      if (v === undefined) return def as T;
+      if (!values.includes(v as T)) throw new Error(`${name} must be one of ${values.join(", ")}`);
+      return v as T;
+    },
     // call once after reading everything, reports all missing vars together
     done() {
       if (missing.length) throw new Error(`missing env: ${missing.join(', ')}`);
