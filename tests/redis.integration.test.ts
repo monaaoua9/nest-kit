@@ -61,4 +61,38 @@ describe.skipIf(!url)('redis', () => {
     expect(y).toEqual({ ok: true });
     expect(n).toBe(1);
   });
+
+  it("redis lock is owner only and extendable", async () => {
+    const store = new RedisIdemStore(redis, `t:${id()}:`);
+    const k = id();
+    const token = await store.lock(k, 500);
+    expect(token).toBeTruthy();
+    expect(await store.lock(k, 500)).toBeNull();
+
+    expect(await store.extend(k, "wrong", 500)).toBe(false);
+    expect(await store.extend(k, token!, 2000)).toBe(true);
+
+    await store.unlock(k, "wrong");
+    expect(await store.lock(k, 500)).toBeNull();
+    await store.unlock(k, token!);
+    expect(await store.lock(k, 500)).toBeTruthy();
+  });
+
+  it("slow call keeps its redis lock via heartbeat", async () => {
+    const store = new RedisIdemStore(redis, `t:${id()}:`);
+    const a = createIdempotent({ store, lockTtlMs: 150 });
+    const b = createIdempotent({ store, lockTtlMs: 150, waitMs: 3000 });
+    let n = 0;
+    const slow = async () => {
+      n++;
+      await new Promise((r) => setTimeout(r, 500));
+      return "done";
+    };
+    const k = id();
+    const p1 = a(k, slow);
+    await new Promise((r) => setTimeout(r, 200));
+    const p2 = b(k, slow);
+    expect(await Promise.all([p1, p2])).toEqual(["done", "done"]);
+    expect(n).toBe(1);
+  });
 });
