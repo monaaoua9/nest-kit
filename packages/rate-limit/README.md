@@ -13,4 +13,18 @@ const { allowed, resetMs } = await check(`otp:${phone}`);
 if (!allowed) throw new AppError('TOO_MANY_REQUESTS', 429);
 ```
 
-Fixed window means a burst of 2x limit is possible across a window edge. Fine for OTP and login throttling, not for strict API quotas.
+Fixed window means a burst of 2x limit is possible across a window edge, see below for the sliding version.
+
+## Sliding window
+
+`createLimiter` is a fixed window. Use `createSlidingLimiter` when the edge burst matters:
+
+```ts
+const check = createSlidingLimiter({
+  limit: 100,
+  windowMs: 60_000,
+  store: new RedisCounterStore(redis),
+});
+```
+
+It weights the previous bucket by how much of it still overlaps the window, so 2x bursts across a boundary are rejected. Rejected calls still count.
