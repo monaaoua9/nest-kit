@@ -10,3 +10,5 @@ const res = await retry(() => fetch(url), {
 ```
 
 Defaults: 3 retries, 200ms base, 5s cap.
+
+`onRetry(err, attempt, delayMs)` is called before each wait, handy for logging. Pass `signal` to cancel: it stops the wait and no further attempt starts, the abort reason is thrown.
