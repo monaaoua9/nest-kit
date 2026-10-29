@@ -21,9 +21,9 @@ Nine small TypeScript packages for NestJS backends. Zero runtime dependencies, e
 ## Example
 
 ```ts
-import { toPage } from '@nest-kit/cursor-page';
-import { AppError } from '@nest-kit/app-error';
-import { generateOtp, hashOtp } from '@nest-kit/otp';
+import { toPage } from '@monaaoua9/cursor-page';
+import { AppError } from '@monaaoua9/app-error';
+import { generateOtp, hashOtp } from '@monaaoua9/otp';
 
 const rows = await db.post.findMany({ take: limit + 1, orderBy: { id: 'asc' } });
 return toPage(rows, limit, r => ({ id: r.id }));

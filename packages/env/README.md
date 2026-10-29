@@ -1,4 +1,4 @@
-# @nest-kit/env
+# @monaaoua9/env
 
 Tiny typed env reader. No schema lib, no deps.
 

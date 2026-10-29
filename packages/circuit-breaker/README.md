@@ -1,4 +1,4 @@
-# @nest-kit/circuit-breaker
+# @monaaoua9/circuit-breaker
 
 Wrap a flaky async call. After `threshold` failures in a row it fails fast with `CircuitOpenError` until `cooldownMs` passes, then lets one probe through.
 

@@ -1,4 +1,4 @@
-# @nest-kit/arabic-text
+# @monaaoua9/arabic-text
 
 Small helpers for Arabic text: remove diacritics, convert digits, normalize for search.
 

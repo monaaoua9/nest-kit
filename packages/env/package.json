@@ -1,5 +1,5 @@
 {
-  "name": "@nest-kit/env",
+  "name": "@monaaoua9/env",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -11,6 +11,7 @@
     "build": "tsc"
   },
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
   "repository": {

@@ -23,11 +23,19 @@ importers:
 
   packages/app-error: {}
 
+  packages/arabic-text: {}
+
+  packages/circuit-breaker: {}
+
   packages/cursor-page: {}
 
   packages/env: {}
 
+  packages/idempotency: {}
+
   packages/otp: {}
+
+  packages/rate-limit: {}
 
   packages/retry: {}
 

@@ -1,4 +1,4 @@
-# @nest-kit/retry
+# @monaaoua9/retry
 
 Retry an async call with exponential backoff and full jitter.
 

@@ -1,4 +1,4 @@
-# @nest-kit/otp
+# @monaaoua9/otp
 
 Numeric OTP generation (crypto RNG) and HMAC hash/verify with constant-time compare.
 

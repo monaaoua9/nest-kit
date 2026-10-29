@@ -1,4 +1,4 @@
-# @nest-kit/idempotency
+# @monaaoua9/idempotency
 
 Run an operation once per idempotency key. Retried requests get the stored result back, concurrent duplicates share one execution, failures are not cached.
 

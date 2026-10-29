@@ -1,4 +1,4 @@
-# @nest-kit/app-error
+# @monaaoua9/app-error
 
 Error with a stable string code and an HTTP status, plus the `{ error: { code, message } }` body shape.
 

@@ -1,4 +1,4 @@
-# @nest-kit/rate-limit
+# @monaaoua9/rate-limit
 
 Fixed-window rate limiter with a pluggable store. In-memory by default, Redis store takes any ioredis-like client.
 

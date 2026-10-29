@@ -1,4 +1,4 @@
-# @nest-kit/cursor-page
+# @monaaoua9/cursor-page
 
 Cursor pagination helpers that return `{ data, meta }`.
 
