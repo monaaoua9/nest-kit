@@ -11,4 +11,4 @@ pay(@Headers('idempotency-key') key: string, @Body() dto: PayDto) {
 }
 ```
 
-Results are stored as JSON, so return plain data. The in-flight dedupe is per process, use a store with atomic set-if-absent if you run several instances.
+Results are stored as JSON, so return plain data. With the default in-memory store dedupe is per process. For several instances use `RedisIdemStore`, it takes a `SET NX` lock so only one instance runs the function and the rest wait for its result (`waitMs`, default 5s).
