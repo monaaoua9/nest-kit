@@ -4,7 +4,7 @@
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![typescript](https://img.shields.io/badge/TypeScript-strict-3178c6)
 
-Small TypeScript packages for NestJS backends. Zero runtime dependencies, each one tested and typed.
+Nine small TypeScript packages for NestJS backends. Zero runtime dependencies, each one tested and typed.
 
 | package | what it does |
 |---|---|
@@ -13,6 +13,10 @@ Small TypeScript packages for NestJS backends. Zero runtime dependencies, each o
 | [`retry`](packages/retry) | async retry, exponential backoff with jitter |
 | [`otp`](packages/otp) | OTP generate / hash / verify (HMAC, constant-time compare) |
 | [`env`](packages/env) | typed env reader that reports every missing var at once |
+| [`rate-limit`](packages/rate-limit) | fixed-window limiter, in-memory or Redis store |
+| [`circuit-breaker`](packages/circuit-breaker) | fail fast on a dead dependency, half-open probe |
+| [`idempotency`](packages/idempotency) | run once per key, replay result, dedupe concurrent calls |
+| [`arabic-text`](packages/arabic-text) | strip tashkeel, convert digits, normalize for search |
 
 ## Example
 
