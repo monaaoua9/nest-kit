@@ -13,9 +13,9 @@ Nine small TypeScript packages for NestJS backends. Zero runtime dependencies, e
 | [`retry`](packages/retry) | async retry, exponential backoff with jitter |
 | [`otp`](packages/otp) | OTP generate / hash / verify (HMAC, constant-time compare) |
 | [`env`](packages/env) | typed env reader that reports every missing var at once |
-| [`rate-limit`](packages/rate-limit) | fixed-window limiter, in-memory or Redis store |
+| [`rate-limit`](packages/rate-limit) | fixed and sliding window limiters, in-memory or Redis store |
 | [`circuit-breaker`](packages/circuit-breaker) | fail fast on a dead dependency, half-open probe |
-| [`idempotency`](packages/idempotency) | run once per key, replay result, dedupe concurrent calls |
+| [`idempotency`](packages/idempotency) | run once per key, replay result, dedupe across instances with a Redis lock |
 | [`arabic-text`](packages/arabic-text) | strip tashkeel, convert digits, normalize for search |
 
 ## Example
@@ -33,7 +33,7 @@ if (!user) throw AppError.notFound('USER_NOT_FOUND');
 
 ## Layout
 
-pnpm workspace, one folder per package under `packages/`. Tests are vitest, versioning is changesets, CI runs typecheck, tests and build on every push.
+pnpm workspace, one folder per package under `packages/`. Tests are vitest, versioning is changesets. CI starts a real Redis and runs the Redis stores against it, then typecheck, build and all tests.
 
 ## Dev
 
