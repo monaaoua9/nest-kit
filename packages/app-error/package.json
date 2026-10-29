@@ -1,0 +1,9 @@
+{
+  "name": "@nest-kit/app-error",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": { "build": "tsc" }
+}
