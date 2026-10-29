@@ -31,6 +31,10 @@ return toPage(rows, limit, r => ({ id: r.id }));
 if (!user) throw AppError.notFound('USER_NOT_FOUND');
 ```
 
+## Example app
+
+[`examples/nest-api`](examples/nest-api) is a NestJS + Fastify app wired with the packages (OTP login with rate limiting, cursor-paginated list, idempotent payments), with e2e tests.
+
 ## Layout
 
 pnpm workspace, one folder per package under `packages/`. Tests are vitest, versioning is changesets. CI starts a real Redis and runs the Redis stores against it, then typecheck, build and all tests.
