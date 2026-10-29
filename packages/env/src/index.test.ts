@@ -20,3 +20,22 @@ it('lists every missing var at once', () => {
 it('rejects non-integers', () => {
   expect(() => createEnv({ PORT: 'abc' }).int('PORT')).toThrow('PORT must be an integer');
 });
+
+it("parses comma lists and trims", () => {
+  const e = createEnv({ ORIGINS: "a.com, b.com ,, c.com" });
+  expect(e.list("ORIGINS")).toEqual(["a.com", "b.com", "c.com"]);
+  expect(e.list("OTHER", [])).toEqual([]);
+});
+
+it("oneOf accepts listed values, falls back to default, rejects others", () => {
+  const modes = ["dev", "prod"] as const;
+  expect(createEnv({ MODE: "prod" }).oneOf("MODE", modes)).toBe("prod");
+  expect(createEnv({}).oneOf("MODE", modes, "dev")).toBe("dev");
+  expect(() => createEnv({ MODE: "staging" }).oneOf("MODE", modes)).toThrow("MODE must be one of dev, prod");
+});
+
+it("empty string counts as missing", () => {
+  const e = createEnv({ A: "" });
+  e.str("A");
+  expect(() => e.done()).toThrow("missing env: A");
+});

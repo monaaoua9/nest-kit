@@ -11,3 +11,5 @@ export const cfg = {
 };
 e.done(); // throws once with every missing name
 ```
+
+`list(name, def?)` splits a comma separated value, `oneOf(name, ["dev", "prod"], def?)` checks against a fixed set and narrows the type.
