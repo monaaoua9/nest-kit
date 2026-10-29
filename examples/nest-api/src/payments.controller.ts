@@ -1,6 +1,6 @@
 import { Body, Controller, Headers, Post } from '@nestjs/common';
 import { AppError } from '@monaaoua9/app-error';
-import { createIdempotent } from '@monaaoua9/idempotency';
+import { IdempotencyMismatchError, createIdempotent } from '@monaaoua9/idempotency';
 
 const once = createIdempotent();
 let charges = 0;
@@ -12,7 +12,14 @@ export class PaymentsController {
     if (!key) throw new AppError('MISSING_IDEMPOTENCY_KEY');
     if (!body?.amount || body.amount <= 0) throw new AppError('INVALID_AMOUNT');
 
-    const data = await once(key, async () => ({ chargeId: ++charges, amount: body.amount }));
-    return { data };
+    try {
+      const data = await once(key, async () => ({ chargeId: ++charges, amount: body.amount }), {
+        fingerprint: String(body.amount),
+      });
+      return { data };
+    } catch (e) {
+      if (e instanceof IdempotencyMismatchError) throw new AppError('IDEMPOTENCY_KEY_REUSED', 422);
+      throw e;
+    }
   }
 }

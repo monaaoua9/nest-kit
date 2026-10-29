@@ -74,6 +74,14 @@ describe('nest-api', () => {
       expect(c.data.chargeId).toBe(a.data.chargeId + 1);
     });
 
+    it('same key with another amount is rejected', async () => {
+      const h = { 'idempotency-key': 'abc-3' };
+      await post('/api/v1/payments', { amount: 10 }, h);
+      const r = await post('/api/v1/payments', { amount: 999 }, h);
+      expect(r.statusCode).toBe(422);
+      expect(r.json().error.code).toBe('IDEMPOTENCY_KEY_REUSED');
+    });
+
     it('requires the header', async () => {
       const r = await post('/api/v1/payments', { amount: 5 });
       expect(r.json().error.code).toBe('MISSING_IDEMPOTENCY_KEY');
