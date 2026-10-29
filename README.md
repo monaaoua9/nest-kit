@@ -50,3 +50,18 @@ pnpm build
 ## License
 
 MIT
+
+## Benchmarks
+
+`node bench/limiters.mjs` after `pnpm build`. Numbers from one Windows laptop on Node 24, single thread, in-memory stores, so read them as rough orders of magnitude:
+
+| | ops/s |
+|---|---|
+| fixed window limiter | ~2.0M |
+| sliding window limiter | ~670k |
+| circuit breaker (closed) | ~4.9M |
+| otp generate | ~3.6M |
+| otp verify (HMAC) | ~200k |
+| cursor encode + decode | ~500k |
+
+With a Redis store the network round trip dominates, the limiter itself is not the bottleneck.
